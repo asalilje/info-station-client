@@ -90,13 +90,13 @@ export default {
     },
     getTubeData() {
       axios
-        .get('http://info-station-api/tube')
+        .get('http://info-station-api:3000/tube')
         .then(response => (this.tubeData = response.data))
         .then(() => (this.tubeLoading = false));
     },
     getWeatherData() {
       axios
-        .get('http://info-station-api/weather')
+        .get('http://info-station-api:3000/weather')
         .then(response => (this.weatherData = response.data))
         .then(() => (this.weatherLoading = false));
     }

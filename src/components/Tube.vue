@@ -95,8 +95,9 @@ export default {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  font-size: 60px;
-  font-weight: 800;
+  font-size: 50px;
+  font-weight: 600;
+  margin-top: 40px;
 }
 
 .time-table {
