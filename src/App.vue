@@ -90,13 +90,13 @@ export default {
     },
     getTubeData() {
       axios
-        .get('http://api:3000/tube')
+        .get('http://localhost:3000/tube')
         .then(response => (this.tubeData = response.data))
         .then(() => (this.tubeLoading = false));
     },
     getWeatherData() {
       axios
-        .get('http://api:3000/weather')
+        .get('http://localhost:3000/weather')
         .then(response => (this.weatherData = response.data))
         .then(() => (this.weatherLoading = false));
     }
@@ -127,6 +127,8 @@ body {
   height: 100%;
   display: flex;
   font-family: 'Open Sans', sans-serif;
+  cursor: none;
+  overflow: hidden;
 }
 
 .tubeArea {
@@ -159,7 +161,7 @@ body {
   width: 100%;
   height: 100%;
   margin: auto;
-  transition: all 1s ease;
+  transition: all 0.5s ease;
 }
 
 .image {
@@ -169,7 +171,7 @@ body {
 }
 
 .data {
-  transition: all 1s ease;
+  transition: all 0.5s ease;
 }
 
 .loader {
@@ -184,7 +186,7 @@ body {
   width: 13px;
   height: 13px;
   border-radius: 50%;
-  background: #fff;
+  background: #000;
   animation: loader 1.2s linear infinite;
 }
 
