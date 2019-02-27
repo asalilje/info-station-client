@@ -90,13 +90,13 @@ export default {
     },
     getTubeData() {
       axios
-        .get('http://info-station-api:3000/tube')
+        .get('http://api:3000/tube')
         .then(response => (this.tubeData = response.data))
         .then(() => (this.tubeLoading = false));
     },
     getWeatherData() {
       axios
-        .get('http://info-station-api:3000/weather')
+        .get('http://api:3000/weather')
         .then(response => (this.weatherData = response.data))
         .then(() => (this.weatherLoading = false));
     }
@@ -120,6 +120,7 @@ export default {
 html,
 body {
   height: 100%;
+  margin: 0;
 }
 
 #app {
@@ -131,14 +132,14 @@ body {
 .tubeArea {
   height: 100%;
   display: flex;
-  background-color: #c251c5;
+  background-color: #de49e2;
   transition: width 1s ease;
 }
 
 .weatherArea {
   height: 100%;
   display: flex;
-  background-color: #1bcaca;
+  background-color: #3ce6e6;
   transition: width 1s ease;
 }
 
