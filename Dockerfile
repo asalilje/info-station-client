@@ -1,5 +1,4 @@
-FROM armhf/alpine as builder
-RUN apk --update add nodejs
+FROM arm32v7/node as builder
 WORKDIR /app
 COPY package.json .
 RUN npm install
