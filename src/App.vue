@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <div class="garbageCollection" v-show="showGarbageAlert">
+      <button @click="closeGarbage" class="close" />
+    </div>
     <div class="tubeArea" @click="toggleTube" :style="tubeAreaWidth">
       <Tube
         :showData="showTubeData"
@@ -34,14 +37,27 @@ export default {
       tubeData: null,
       weatherData: null,
       tubeRequestCount: 0,
-      tubeRequestInterval: null
+      tubeRequestInterval: null,
+      garbageClosed: false,
+      today: null
     };
+  },
+  mounted() {
+    this.changeToday();
+    setInterval(this.changeToday, 1000 * 10);
   },
   components: {
     Tube,
     Weather
   },
   methods: {
+    changeToday() {
+      this.today = new Date();
+      if (!this.isGarbageDay()) this.garbageClosed = false;
+    },
+    closeGarbage() {
+      this.garbageClosed = true;
+    },
     toggleTube() {
       this.closeWeather();
       this.tubeIsOpen = !this.tubeIsOpen;
@@ -99,6 +115,9 @@ export default {
         .get('http://info-station-api:3000/weather')
         .then(response => (this.weatherData = response.data))
         .then(() => (this.weatherLoading = false));
+    },
+    isGarbageDay() {
+      return this.today ? this.today.getDay() === 0 : false;
     }
   },
   computed: {
@@ -111,6 +130,10 @@ export default {
       return {
         width: this.tubeIsOpen ? '10%' : this.weatherIsOpen ? '90%' : '50%'
       };
+    },
+    showGarbageAlert() {
+      if (this.garbageClosed) return false;
+      return this.isGarbageDay();
     }
   }
 };
@@ -126,6 +149,52 @@ body {
   height: 100%;
   display: flex;
   font-family: 'Open Sans', sans-serif;
+}
+
+.garbageCollection {
+  position: absolute;
+  margin: auto;
+  width: 300px;
+  height: 300px;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  border-radius: 12%;
+  border: 4px solid white;
+  background-color: darkgreen;
+  background-image: url('./assets/trash.svg');
+  background-size: 75%;
+  background-repeat: no-repeat;
+  background-position: center;
+  animation: backgroundCycle 3s linear infinite;
+}
+
+.close {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  width: 32px;
+  height: 32px;
+  background-color: transparent;
+  border: 0;
+}
+
+.close:before,
+.close:after {
+  top: 0;
+  position: absolute;
+  content: ' ';
+  height: 33px;
+  width: 4px;
+  background-color: white;
+}
+.close:before {
+  transform: rotate(45deg);
+}
+.close:after {
+  transform: rotate(-45deg);
 }
 
 .tubeArea {
@@ -248,6 +317,22 @@ body {
   }
   50% {
     opacity: 0.5;
+  }
+}
+
+@keyframes backgroundCycle {
+  0%,
+  100% {
+    background-color: green;
+  }
+  25% {
+    background-color: blue;
+  }
+  50% {
+    background-color: red;
+  }
+  75% {
+    background-color: yellow;
   }
 }
 </style>
